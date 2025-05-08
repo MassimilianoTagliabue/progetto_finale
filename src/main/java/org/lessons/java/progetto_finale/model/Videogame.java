@@ -46,7 +46,6 @@ public class Videogame {
     @JsonBackReference
     private Publisher publisher;
 
-    
 
     public Publisher getPublisher() {
         return this.publisher;
@@ -55,7 +54,6 @@ public class Videogame {
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
     }
-
 
 
     public Integer getId() {
