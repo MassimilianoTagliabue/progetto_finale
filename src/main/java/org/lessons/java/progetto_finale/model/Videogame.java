@@ -1,11 +1,16 @@
 package org.lessons.java.progetto_finale.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +41,22 @@ public class Videogame {
     @PositiveOrZero(message = "campo obbligatorio")
     private float price;
 
+    @ManyToOne
+    @JoinColumn(name= "publisher_id", nullable = false)
+    @JsonBackReference
+    private Publisher publisher;
+
     
+
+    public Publisher getPublisher() {
+        return this.publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+
 
     public Integer getId() {
         return this.id;

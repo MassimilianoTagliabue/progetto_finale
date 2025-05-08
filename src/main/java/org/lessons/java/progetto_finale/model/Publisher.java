@@ -1,9 +1,12 @@
 package org.lessons.java.progetto_finale.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,6 +24,17 @@ public class Publisher {
     @Size(min=2 , message = "il nome deve avere almeno 2 caratteri")
     private String name;
 
+    @OneToMany(mappedBy = "publisher")
+    private List<Videogame> videogames;
+
+
+    public List<Videogame> getVideogames() {
+        return this.videogames;
+    }
+
+    public void setVideogames(List<Videogame> videogames) {
+        this.videogames = videogames;
+    }
 
     public Integer getId() {
         return this.id;
