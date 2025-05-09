@@ -1,5 +1,8 @@
 package org.lessons.java.progetto_finale.model;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import io.micrometer.common.lang.NonNull;
@@ -8,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -35,6 +39,19 @@ public class Videogame {
     private String description;
 
     @NotBlank(message = "campo obbligatorio")
+    @Size(min=1)
+    private String ageRating;
+
+    @NotNull(message = "campo obbligatorio")
+    private LocalDate releaseDate;
+
+    @PositiveOrZero(message = "campo obbligatorio")
+    private Integer download;
+
+    @PositiveOrZero(message = "campo obbligatorio")
+    private float sizeGB;
+
+    @NotBlank(message = "campo obbligatorio")
     @Lob
     private String image;
 
@@ -46,6 +63,54 @@ public class Videogame {
     @JsonBackReference
     private Publisher publisher;
 
+    @ManyToMany()
+    @JoinTable(
+        name="category-videogame",
+        joinColumns = @JoinColumn(name="videogame_id"),
+        inverseJoinColumns = @JoinColumn(name="category-id")
+    )
+    private List<Category> categories;
+    
+
+    public String getAgeRating() {
+        return this.ageRating;
+    }
+
+    public void setAgeRating(String ageRating) {
+        this.ageRating = ageRating;
+    }
+
+    public LocalDate getReleaseDate() {
+        return this.releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Integer getDownload() {
+        return this.download;
+    }
+
+    public void setDownload(Integer download) {
+        this.download = download;
+    }
+
+    public float getSizeGB() {
+        return this.sizeGB;
+    }
+
+    public void setSizeGB(float sizeGB) {
+        this.sizeGB = sizeGB;
+    }
+
+    public List<Category> getCategories() {
+        return this.categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
     public Publisher getPublisher() {
         return this.publisher;
