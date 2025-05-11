@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <html xmlns:th="http://www.thymeleaf.org">
+
+    </html>
+    <title>Videogame</title>
+    <!-- bootstrap -->
+    <th:block th:insert="~{fragments/resources :: headTags}"></th:block>
+    <!-- style css -->
+    <th:block th:insert="~{fragments/resources :: styles}"></th:block>
+
+</head>
+
+<body class="ms-bg-body " data-bs-theme="dark">
+    <navbar th:replace="~{fragments/navbar :: navbar}"></navbar>
+
+    <div class="col-6 mx-auto mt-4"  th:object="${videogame}">  
+        <h3 class="card-title my-3" th:text="*{title}"></h3>
+        <div class="card mb-3" >
+            <div>
+                <img th:src="*{image}" class="img-fluid rounded " alt="..." width="800px" >
+
+                <div class="card-body">
+                    
+                    <div class="card-text mb-2" th:text="*{description}"></div>
+                    <div class="card-text"><span class="text-body-secondary" >Editore: </span> [[${videogame.getPublisher().getName()}]]</div>
+                    <div class="card-text"><span class="text-body-secondary" >Download: </span> [[*{download}]]</div>
+                    <div class="card-text" ><span class="text-body-secondary">Memoria: </span> [[|*{sizeGB} GB|]]</div>
+                    <div class="card-text" ><span class="text-body-secondary">Classificazione per età per: </span> [[*{ageRating}]]</div>
+                    <div class="card-text"><span class="text-body-secondary">Data di rilascio: </span> [[*{releaseDate}]]</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+
+</body>
+
+</html>

@@ -23,6 +23,7 @@ public class Category {
 
     @NotBlank(message = "campo obbligatorio")
     @Size(min = 2, message = "il genere deve contenere almeno 2 caratteri")
+    private String name;
 
     @ManyToMany(mappedBy = "categories")
     @JsonBackReference
@@ -51,6 +52,6 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
-    private String name;
+    
     
 }

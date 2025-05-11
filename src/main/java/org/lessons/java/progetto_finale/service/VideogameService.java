@@ -1,6 +1,7 @@
 package org.lessons.java.progetto_finale.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.lessons.java.progetto_finale.model.Videogame;
 import org.lessons.java.progetto_finale.repository.VideogameRepository;
@@ -20,5 +21,13 @@ public class VideogameService {
 
     public List<Videogame> findByTitle(String title){
         return videogameRepository.findByTitleContaining(title);
+    }
+
+    public Videogame getById(Integer id){
+        return videogameRepository.findById(id).get();
+    }
+
+    public Optional<Videogame> findById(Integer id){
+        return videogameRepository.findById(id);
     }
 }
