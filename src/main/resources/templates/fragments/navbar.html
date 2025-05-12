@@ -20,6 +20,9 @@
                 <a class="nav-link" th:href="@{http://localhost:8080/categories}">Categorie</a>
               </li>
               <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                <a class="nav-link" th:href="@{http://localhost:8080/publisher}">Editori</a>
+              </li>
+              <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                 <a class="nav-link" th:href="@{http://localhost:8080/videogame/create}">Aggiungi una Videogioco</a>
               </li>
             </ul>

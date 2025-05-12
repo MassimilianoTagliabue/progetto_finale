@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <html xmlns:th="http://www.thymeleaf.org">
+
+    </html>
+    <title>Videogame</title>
+    <!-- bootstrap -->
+    <th:block th:insert="~{fragments/resources :: headTags}"></th:block>
+    <!-- style css -->
+    <th:block th:insert="~{fragments/resources :: styles}"></th:block>
+</head>
+
+<body class="ms-bg-body " data-bs-theme="dark">
+    <navbar th:replace="~{fragments/navbar :: navbar}"></navbar>
+
+    <div class="mt-3 d-flex justify-content-end">
+        <form class="d-flex col-4 mx-4" data-bs-theme="dark" role="search"
+            th:action="@{http://localhost:8080/publisher/search}" method="get">
+            <input class="form-control me-2" type="text" name="name" placeholder="Search" aria-label="Search"
+                autocomplete="off">
+            <button class="btn btn-success " type="submit">Search</button>
+        </form>
+    </div>
+
+
+    <div class="col-7 mx-auto mt-4">
+
+
+        <div class="d-flex justify-content-between my-4">
+            <h3>Editori</h3>
+            <div>
+                <button class="btn btn-primary" th:onclick="|window.location='@{/publisher/create}'|"
+                    sec:authorize="hasAuthority('ADMIN')">Aggiungi</button>
+            </div>
+        </div>
+
+        <table class="table table-striped" th:if="${publishers.size() > 0}">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">nome</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="publisher : ${publishers}" th:object="${publisher}">
+                    <th scope="row" th:text="*{id}"></th>
+                    <td th:text="*{name}"></td>
+
+                    <td>
+                        <button class="btn btn-success"
+                            th:onclick="|window.location='@{/publisher/edit/{id}(id=*{id})}'|"
+                            sec:authorize="hasAuthority('ADMIN')">Modifica</button>
+                    </td>
+
+                    <td>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            th:data-bs-target="'#deleteModal' + *{id}" sec:authorize="hasAuthority('ADMIN')">Elimina
+                        </button>
+
+                        <!-- modal -->
+                        <div class="modal fade" th:id="'deleteModal' + *{id}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel"
+                                            th:text="|stai eliminando l' Editore: *{name}|"></h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!-- close button -->
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Chiudi</button>
+                                        <!-- delete button -->
+                                        <form action="#" th:action="@{/publishers/delete/{id}(id=*{id})}" method="post">
+                                            <button type="submit" class="btn btn-danger">Elimina</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="alert alert-secondary mt-5 col-4 mx-auto" role="alert" th:unless="${publishers.size()>0}">
+        Non sono presenti editori
+    </div>
+
+
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+</body>

@@ -33,7 +33,7 @@ public class CategoryController {
 
     // show
     @GetMapping("/{id}")
-    public String show(@RequestParam Integer id, Model model) {
+    public String show(@PathVariable Integer id, Model model) {
         model.addAttribute("category", categoryService.getById(id));
         return "categories/show";
     }
