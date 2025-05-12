@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <html xmlns:th="http://www.thymeleaf.org">
+
+    </html>
+    <title>Videogame</title>
+    <!-- bootstrap -->
+    <th:block th:insert="~{fragments/resources :: headTags}"></th:block>
+    <!-- style css -->
+    <th:block th:insert="~{fragments/resources :: styles}"></th:block>
+</head>
+
+<body class="ms-bg-body " data-bs-theme="dark">
+    <navbar th:replace="~{fragments/navbar :: navbar}"></navbar>
+
+
+    <div class="col-6 mx-auto mt-4">
+        <h2 class="text-center my-4" th:if="${edit}">Modifica una Categoria </h2>
+        <h2 class="text-center my-4" th:unless="${edit}">Aggiungi una nuova Categoria </h2>
+
+        <form th:action="${edit} ? @{|/categories/edit/${category.id}|} : @{/categories/create}"
+            th:object="${category}" method="post">
+
+            <div class="mb-4 ">
+                <label for="name" class="form-label">Nome della Categoria:</label>
+                <input type="text" id="name" class="form-control" th:field="*{name}" autocomplete="off" th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">    
+                    <ul>
+                        <li th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+                    </ul>
+                    
+                </div>
+            </div>
+
+            <div class="mb-3 d-flex justify-content-around">
+                <input type="submit" class="btn btn-primary" th:value="${edit} ? Modifica : Aggiungi">
+                <input type="reset" class="btn btn-success" value="Ripristina" autocomplete="off">
+            </div>
+
+        </form>
+        
+    </div>
+
+    
+
+
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+</body>
