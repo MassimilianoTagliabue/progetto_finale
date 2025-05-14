@@ -18,42 +18,39 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @Controller
 @RequestMapping("/videogame")
 public class VideogameController {
 
     @Autowired
     private VideogameService videogameService;
-    
-    //index
+
+    // index
     @GetMapping("")
     public String index(Authentication authentication, Model model) {
-        
+
         model.addAttribute("videogames", videogameService.findAll());
         model.addAttribute("username", authentication.getName());
         return "videogames/index";
     }
 
-    //search
+    // search
     @GetMapping("/search")
     public String searchByTitle(@RequestParam(name = "title") String title, Model model) {
-        
+
         model.addAttribute("videogames", videogameService.findByTitle(title));
         return "videogames/index";
     }
 
-    //show
+    // show
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
 
         model.addAttribute("videogame", videogameService.getById(id));
         return "videogames/show";
     }
-    
 
-    //create
+    // create
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("videogame", new Videogame());
@@ -61,21 +58,23 @@ public class VideogameController {
         model.addAttribute("publishers", videogameService.findAllPublishers());
         return "videogames/create-or-edit";
     }
-    
+
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("videogame") Videogame formVideogame,
             BindingResult bindingResult, Model model) {
-                
-            if(bindingResult.hasErrors()){
-                return "videogames/create-or-edit";
-            }
 
-            videogameService.createOrEdit(formVideogame);
-        
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", videogameService.findAllCategories());
+            model.addAttribute("publishers", videogameService.findAllPublishers());
+            return "videogames/create-or-edit";
+        }
+
+        videogameService.createOrEdit(formVideogame);
+
         return "redirect:/videogame";
     }
-    
-    //edit
+
+    // edit
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("videogame", videogameService.getById(id));
@@ -84,28 +83,27 @@ public class VideogameController {
         model.addAttribute("edit", true);
         return "videogames/create-or-edit";
     }
-    
 
     @PostMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute("videogame") Videogame formVideogame,
             BindingResult bindingResult, Model model) {
-                
-                if(bindingResult.hasErrors()){
-                    return "videogames/create-or-edit";
-                }
-                videogameService.createOrEdit(formVideogame);
-        
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", videogameService.findAllCategories());
+            model.addAttribute("publishers", videogameService.findAllPublishers());
+            return "videogames/create-or-edit";
+        }
+        videogameService.createOrEdit(formVideogame);
+
         return "redirect:/videogame";
     }
 
-    //delete
+    // delete
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-            videogameService.deleteById(id);
-            
+        videogameService.deleteById(id);
+
         return "redirect:/videogame";
     }
-    
-    
-    
+
 }
