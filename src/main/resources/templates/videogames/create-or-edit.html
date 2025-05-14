@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <html xmlns:th="http://www.thymeleaf.org">
+
+    </html>
+    <title>Videogame</title>
+    <!-- bootstrap -->
+    <th:block th:insert="~{fragments/resources :: headTags}"></th:block>
+    <!-- style css -->
+    <th:block th:insert="~{fragments/resources :: styles}"></th:block>
+</head>
+
+<body class="ms-bg-body " data-bs-theme="dark">
+    <navbar th:replace="~{fragments/navbar :: navbar}"></navbar>
+
+
+    <div class="col-6 mx-auto mt-4">
+        <h2 class="text-center my-4" th:if="${edit}">Modifica un Videogioco </h2>
+        <h2 class="text-center my-4" th:unless="${edit}">Aggiungi un nuovo Videogioco </h2>
+
+        <form th:action="${edit} ? @{|/videogame/edit/${videogame.id}|} : @{/videogame/create}" th:object="${videogame}"
+            method="post">
+
+            <div class="mb-4 ">
+                <label for="title" class="form-label">Nome del Videogioco:</label>
+                <input type="text" id="title" class="form-control" th:field="*{title}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('title')}" th:text="${error}"></li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="mb-4 form-floating">
+                <textarea class="form-control" placeholder="Descrizione" id="description" style="height: 100px"
+                    th:field="*{description}" th:errorClass="is-invalid"></textarea>
+                <label for="description" class="form-label">Descrizione</label>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('description')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-1 ">Seleziona le Categorie:
+                <div class="my-3 row mx-2">
+                    <div class="form-check col-3" th:each="category : ${categories}">
+                        <input class="form-check-input" type="checkbox" th:value="${category.id}"
+                            th:field="${videogame.categories}" th:id="|category-${category.id}|">
+                        <label class="form-check-label" th:for="|category-${category.id}|" th:text="${category.name}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            
+
+            <div class="mb-1 ">Seleziona l' Editore:
+                <div class="my-3 row mx-2">
+                    <div class="form-check col-4" th:each="publisher : ${publishers}">
+                        <input class="form-check-input" type="radio" th:value="${publisher.id}"
+                            th:field="${videogame.publisher}" th:id="|publisher-${publisher.id}|">
+                        <label class="form-check-label" th:for="|publisher-${publisher.id}|" th:text="${publisher.name}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="mb-4">
+                <label for="ageRating" class="form-label">Classificazione per età:</label>
+                <input type="text" id="ageRating" class="form-control" th:field="*{ageRating}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('ageRating')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('ageRating')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4 ">
+                <label for="releaseDate" class="form-label">Data di Rilascio:</label>
+                <input type="date" id="releaseDate" class="form-control" th:field="*{releaseDate}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('releaseDate')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('releaseDate')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4 ">
+                <label for="download" class="form-label">numero download:</label>
+                <input type="number" id="download" class="form-control" th:field="*{download}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('download')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('download')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4 ">
+                <label for="sizeGB" class="form-label">spazio in Memoria richiesto:</label>
+                <input type="number" id="sizeGB" class="form-control" th:field="*{sizeGB}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('sizeGB')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('sizeGB')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4 ">
+                <label for="image" class="form-label">immagine dell videogioco (URL):</label>
+                <input type="text" id="image" class="form-control" th:field="*{image}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('image')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('image')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4 ">
+                <label for="price" class="form-label">prezzo dell videogioco:</label>
+                <input type="number" id="price" class="form-control" th:field="*{price}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('price')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-3 d-flex justify-content-around">
+                <input type="submit" class="btn btn-primary" th:value="${edit} ? Modifica : Aggiungi">
+                <input type="reset" class="btn btn-success" value="Ripristina" autocomplete="off">
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+
+
+
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+</body>

@@ -39,7 +39,7 @@ public class Videogame {
     private String description;
 
     @NotBlank(message = "campo obbligatorio")
-    @Size(min=1)
+    @Size(min=1, message = "inserire classificazione per età ")
     private String ageRating;
 
     @NotNull(message = "campo obbligatorio")
@@ -59,7 +59,7 @@ public class Videogame {
     private float price;
 
     @ManyToOne
-    @JoinColumn(name= "publisher_id", nullable = false)
+    @JoinColumn(name= "publisher_id", nullable = false) 
     @JsonBackReference
     private Publisher publisher;
 

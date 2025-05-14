@@ -58,6 +58,29 @@
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                             th:data-bs-target="'#deleteModal' + *{id}" sec:authorize="hasAuthority('ADMIN')">Elimina
                         </button>
+                        <!-- modal -->
+                        <div class="modal fade" th:id="'deleteModal' + *{id}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel"
+                                            th:text="|stai eliminando il videogioco: *{title}|"></h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!-- close button -->
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Chiudi</button>
+                                        <!-- delete button -->
+                                        <form action="#" th:action="@{/videogame/delete/{id}(id=*{id})}" method="post">
+                                            <button type="submit" class="btn btn-danger">Elimina</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
